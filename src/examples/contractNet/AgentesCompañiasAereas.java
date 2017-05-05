@@ -35,6 +35,11 @@ import jade.domain.FIPANames;
 import jade.domain.FIPAAgentManagement.NotUnderstoodException;
 import jade.domain.FIPAAgentManagement.RefuseException;
 import jade.domain.FIPAAgentManagement.FailureException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.Date;
+import static java.util.Date.from;
 
 /**
    This example shows how to implement the responder role in 
@@ -104,12 +109,19 @@ public class AgentesCompañiasAereas extends Agent {
 
 	private int evaluateAction() {
 		// evaluación generando un número aleatorio
-                ofertaPrecio.setPrecio((int) (Math.random() * 10) );
+                ofertaPrecio.setPrecio((int) (Math.random() * 1000) );
 		return ofertaPrecio.getPrecio();
 	}
 
 	private boolean performAction() {
-           System.out.println("Billete comprado ");
+           ZoneId zone1 = ZoneId.of("Europe/Berlin");
+           ZoneId zone2 = ZoneId.of("Brazil/East");
+           billete.setFechaHoraSalida(LocalTime.now(zone1));
+           billete.setFechaHoraLlegada(LocalTime.now(zone2));
+           
+           System.out.println("Billete comprado con origen "+ billete.getOrigen()+" y destino "+ billete.getDestino());
+           System.out.println("Datos de salida "+ billete.getFechaHoraSalida()+ " Datos llegada " + billete.getFechaHoraLlegada());
+           System.out.println("precio " + billete.getPrecio());
            return true;
 		  
 	}

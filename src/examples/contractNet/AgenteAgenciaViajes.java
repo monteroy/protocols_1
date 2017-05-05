@@ -13,6 +13,7 @@ import jade.domain.FIPANames;
 import java.util.Date;
 import java.util.Vector;
 import java.util.Enumeration;
+import java.util.Scanner;
 
 /**
    This example shows how to implement the initiator role in 
@@ -28,6 +29,7 @@ public class AgenteAgenciaViajes extends Agent {
     private final Billete billete = new Billete();
     private final Ontology ontologia = ViajesOntology.getInstance();
     private final Codec codec = new SLCodec();  //lenguaje de contenido
+    Scanner sc = new Scanner (System.in);
   
         @Override
 	protected void setup() { 
@@ -37,8 +39,15 @@ public class AgenteAgenciaViajes extends Agent {
   	Object[] args = getArguments();
   	if (args != null && args.length > 0) {
   		nResponders = args.length;
-  		System.out.println("Tratando de delegar la acción a uno de cada  "+nResponders+" respondedores.");
+                System.out.println("Origen ");
+                billete.setOrigen(sc.nextLine());
+                System.out.println("Destino ");
+                billete.setDestino(sc.nextLine());
+                System.out.println("Precio máximo (entre 0-1000) ");
+                billete.setPrecio(sc.nextInt());
+  		System.out.println("busco vuelo en "+ nResponders+" agencias.");
   		
+                
   		// Rellenar el mensaje CFP
   		ACLMessage msg = new ACLMessage(ACLMessage.CFP);
   		for (int i = 0; i < args.length; ++i) {//se crea para cada agente un mensaje con su aid
@@ -56,7 +65,7 @@ public class AgenteAgenciaViajes extends Agent {
 			addBehaviour(new ContractNetInitiator(this, msg) {
 				
 				protected void handlePropose(ACLMessage propose, Vector v) {
-					System.out.println("Agente "+propose.getSender().getName()+" propone "+ propose.getContent());
+					System.out.println("Agente "+ propose.getSender().getName()+" propone "+ propose.getContent());
 				}
 				
 				protected void handleRefuse(ACLMessage refuse) {
@@ -76,6 +85,7 @@ public class AgenteAgenciaViajes extends Agent {
 					nResponders--;
 				}
 				
+                                @Override
 				protected void handleAllResponses(Vector responses, Vector acceptances) {
 					if (responses.size() < nResponders) {
 						// Some responder didn't reply within the specified timeout

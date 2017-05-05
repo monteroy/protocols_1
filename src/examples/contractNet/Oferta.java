@@ -23,8 +23,5 @@ public class Oferta implements Predicate {
     public int getPrecio() {
         return precio;
     }
-   //constructor
-    public Oferta() {
-    }
  
 }

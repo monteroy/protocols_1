@@ -9,8 +9,11 @@ public class ViajesOntology extends Ontology {
  
   // Vocabulario de la ontología que van a manejar los agentes
   public static final String BILLETE = "billete";
+  public static final String BILLETE_ORIGEN= "origen";
+  public static final String BILLETE_DESTINO= "destino";
+  public static final String BILLETE_SALIDA = "horaSalida";
+  public static final String BILLETE_LLEGADA = "horaLlegada";
   public static final String BILLETE_PRECIO = "precio";
- 
   
   public static final String OFERTA = "Oferta";
   public static final String OFERTA_BILLETE = "billete";
