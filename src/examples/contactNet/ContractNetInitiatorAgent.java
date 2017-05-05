@@ -36,14 +36,14 @@ public class ContractNetInitiatorAgent extends Agent {
   			msg.addReceiver(new AID((String) args[i], AID.ISLOCALNAME));
   		}
 			msg.setProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET);
-			// We want to receive a reply in 10 secs
+			// recibir una respuesta en 10 segundos
 			msg.setReplyByDate(new Date(System.currentTimeMillis() + 10000));
-			msg.setContent("dummy-action");
+			msg.setContent("billeteOrigen");
 			
 			addBehaviour(new ContractNetInitiator(this, msg) {
 				
 				protected void handlePropose(ACLMessage propose, Vector v) {
-					System.out.println("Agent "+propose.getSender().getName()+" proposed "+propose.getContent());
+					System.out.println("Agente "+propose.getSender().getName()+" propone "+ propose.getContent());
 				}
 				
 				protected void handleRefuse(ACLMessage refuse) {

@@ -22,7 +22,7 @@
  * Boston, MA  02111-1307, USA.
  * **************************************************************
  */
-package examples.protocols;
+package examples.contactNet;
 
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
@@ -44,59 +44,59 @@ import jade.domain.FIPAAgentManagement.FailureException;
 public class ContractNetResponderAgent extends Agent {
 
 	protected void setup() {
-		System.out.println("Agent "+getLocalName()+" waiting for CFP...");
-		MessageTemplate template = MessageTemplate.and(
-				MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET),
-				MessageTemplate.MatchPerformative(ACLMessage.CFP) );
+		System.out.println("Agente "+getLocalName()+" esperando por un mensaje CFP...");
+                    MessageTemplate template = MessageTemplate.and(
+                    MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET),
+                    MessageTemplate.MatchPerformative(ACLMessage.CFP) );
 
 		addBehaviour(new ContractNetResponder(this, template) {
 			@Override
 			protected ACLMessage handleCfp(ACLMessage cfp) throws NotUnderstoodException, RefuseException {
-				System.out.println("Agent "+getLocalName()+": CFP received from "+cfp.getSender().getName()+". Action is "+cfp.getContent());
+				System.out.println("Agente "+getLocalName()+": CFP recibo de  "+ cfp.getSender().getName()+".La acción es "+cfp.getContent());
 				int proposal = evaluateAction();
 				if (proposal > 2) {
-					// We provide a proposal
-					System.out.println("Agent "+getLocalName()+": Proposing "+proposal);
+					// Proporcionamos una propuesta
+					System.out.println("Agente "+getLocalName()+": propongo "+proposal);
 					ACLMessage propose = cfp.createReply();
 					propose.setPerformative(ACLMessage.PROPOSE);
 					propose.setContent(String.valueOf(proposal));
 					return propose;
 				}
 				else {
-					// We refuse to provide a proposal
-					System.out.println("Agent "+getLocalName()+": Refuse");
-					throw new RefuseException("evaluation-failed");
+					// Nos negamos a proporcionar una propuesta
+					System.out.println("Agente "+getLocalName()+": Rechazo");
+					throw new RefuseException("Evaluación fallada");
 				}
 			}
 
 			@Override
 			protected ACLMessage handleAcceptProposal(ACLMessage cfp, ACLMessage propose,ACLMessage accept) throws FailureException {
-				System.out.println("Agent "+getLocalName()+": Proposal accepted");
+				System.out.println("Agente "+getLocalName()+": Propuesta aceptada");
 				if (performAction()) {
-					System.out.println("Agent "+getLocalName()+": Action successfully performed");
+					System.out.println("Agente "+getLocalName()+": Acción realizada con éxito");
 					ACLMessage inform = accept.createReply();
 					inform.setPerformative(ACLMessage.INFORM);
 					return inform;
 				}
 				else {
-					System.out.println("Agent "+getLocalName()+": Action execution failed");
-					throw new FailureException("unexpected-error");
+					System.out.println("Agente "+getLocalName()+": Error en la ejecución de la acción");
+					throw new FailureException("error inesperado");
 				}	
 			}
 
 			protected void handleRejectProposal(ACLMessage cfp, ACLMessage propose, ACLMessage reject) {
-				System.out.println("Agent "+getLocalName()+": Proposal rejected");
+				System.out.println("Agente "+getLocalName()+": Propuesta rechazada");
 			}
 		} );
 	}
 
 	private int evaluateAction() {
-		// Simulate an evaluation by generating a random number
+		// Simular una evaluación generando un número aleatorio
 		return (int) (Math.random() * 10);
 	}
 
 	private boolean performAction() {
-		// Simulate action execution by generating a random number
+		// Simule la ejecución de la acción generando un número aleatorio
 		return (Math.random() > 0.2);
 	}
 }
