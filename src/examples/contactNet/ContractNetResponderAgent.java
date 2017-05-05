@@ -24,6 +24,9 @@
  */
 package examples.contactNet;
 
+import jade.content.lang.Codec;
+import jade.content.lang.sl.SLCodec;
+import jade.content.onto.Ontology;
 import jade.core.Agent;
 import jade.lang.acl.ACLMessage;
 import jade.lang.acl.MessageTemplate;
@@ -42,30 +45,39 @@ import jade.domain.FIPAAgentManagement.FailureException;
    @author Giovanni Caire - TILAB
  */
 public class ContractNetResponderAgent extends Agent {
-
+        Billete billete = new Billete();
+        Oferta ofertaPrecio = new Oferta();
+        Comprar comprar = new Comprar();
+        private final Ontology ontologia = ViajesOntology.getInstance();
+        private final Codec codec = new SLCodec();
+        
+        @Override
 	protected void setup() {
-		System.out.println("Agente "+getLocalName()+" esperando por un mensaje CFP...");
+		System.out.println("Soy el agente "+getLocalName()+" esperando por un mensaje CFP...");
                     MessageTemplate template = MessageTemplate.and(
                     MessageTemplate.MatchProtocol(FIPANames.InteractionProtocol.FIPA_CONTRACT_NET),
                     MessageTemplate.MatchPerformative(ACLMessage.CFP) );
-
+                    MessageTemplate.MatchOntology(ontologia.getName());
+                    MessageTemplate.MatchLanguage(codec.getName());
+                    
 		addBehaviour(new ContractNetResponder(this, template) {
 			@Override
 			protected ACLMessage handleCfp(ACLMessage cfp) throws NotUnderstoodException, RefuseException {
 				System.out.println("Agente "+getLocalName()+": CFP recibo de  "+ cfp.getSender().getName()+".La acción es "+cfp.getContent());
 				int proposal = evaluateAction();
-				if (proposal > 2) {
+				if (proposal <= billete.getPrecio()) {
 					// Proporcionamos una propuesta
 					System.out.println("Agente "+getLocalName()+": propongo "+proposal);
 					ACLMessage propose = cfp.createReply();
 					propose.setPerformative(ACLMessage.PROPOSE);
 					propose.setContent(String.valueOf(proposal));
+                                        
 					return propose;
 				}
 				else {
 					// Nos negamos a proporcionar una propuesta
-					System.out.println("Agente "+getLocalName()+": Rechazo");
-					throw new RefuseException("Evaluación fallada");
+					System.out.println("Agente "+getLocalName()+": Rechazo.Mi precio es mayor " + billete.getPrecio());
+					throw new RefuseException("he dicho no antes");
 				}
 			}
 
@@ -85,19 +97,21 @@ public class ContractNetResponderAgent extends Agent {
 			}
 
 			protected void handleRejectProposal(ACLMessage cfp, ACLMessage propose, ACLMessage reject) {
-				System.out.println("Agente "+getLocalName()+": Propuesta rechazada");
+				System.out.println("El agente "+getLocalName()+": rechaza la propuesta");
 			}
 		} );
 	}
 
 	private int evaluateAction() {
-		// Simular una evaluación generando un número aleatorio
-		return (int) (Math.random() * 10);
+		// evaluación generando un número aleatorio
+                ofertaPrecio.setPrecio((int) (Math.random() * 10) );
+		return ofertaPrecio.getPrecio();
 	}
 
 	private boolean performAction() {
-		// Simule la ejecución de la acción generando un número aleatorio
-		return (Math.random() > 0.2);
+           System.out.println("Billete comprado ");
+           return true;
+		  
 	}
 }
 

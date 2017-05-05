@@ -1,14 +1,14 @@
 package examples.contactNet;
  
-import jade.content.onto.*;
-import jade.content.schema.*;
+import jade.content.onto.*;// la ontologia es la instancia de esta clase
+import jade.content.schema.*;// instancias de las clases PredicateSchema (implements oferta), AgentActionSchema(implements comprar) y ConceptSchema(implements Billete)
  
 public class ViajesOntology extends Ontology {
    // Nombre de la ontología
-   public static final String ONTOLOGY_NAME = "ontologia de frutas";
+   public static final String ONTOLOGY_NAME = "ontologia de viajes";
  
   // Vocabulario de la ontología que van a manejar los agentes
-  public static final String BILLETE = "Billete";
+  public static final String BILLETE = "billete";
   public static final String BILLETE_PRECIO = "precio";
  
   
@@ -17,7 +17,7 @@ public class ViajesOntology extends Ontology {
 
  
   public static final String COMPRAR = "Comprar";
-  public static final String COMPRAR_BILLETE = "ComprarBillete";
+  public static final String COMPRAR_BILLETE = "billete";
 
  
   // Instancia de la ontología (que será única)
@@ -31,7 +31,7 @@ public class ViajesOntology extends Ontology {
  
    // Constructor privado
       private ViajesOntology() {
-     // frutasOntology extiende la ontología básica
+     // ViajesOntology extiende la ontología básica
      super(ONTOLOGY_NAME, BasicOntology.getInstance());
  
      try {
@@ -40,7 +40,7 @@ public class ViajesOntology extends Ontology {
        add(new PredicateSchema(OFERTA), Oferta.class);
        add(new AgentActionSchema(COMPRAR), Comprar.class);
  
-       // Estructura del esquema para el concepto FRUTA
+       // Estructura del esquema para el concepto BILLETE
        ConceptSchema cs = (ConceptSchema) getSchema(BILLETE);
        cs.add(BILLETE, (PrimitiveSchema) getSchema(BasicOntology.STRING));
        cs.add(BILLETE_PRECIO, (PrimitiveSchema) getSchema(BasicOntology.INTEGER));

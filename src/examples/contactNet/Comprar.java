@@ -11,8 +11,13 @@ public class Comprar implements AgentAction {
      return ComprarBillete;
    }
  
-   public void setComprarFruta(Billete b) {
+   public void setComprarBillete(Billete b) {
      ComprarBillete = b;
    }
-  
+   //contructor
+    public Comprar() {
+        
+    }
+   
+ 
 }
