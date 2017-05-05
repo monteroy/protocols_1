@@ -22,7 +22,7 @@
  * Boston, MA  02111-1307, USA.
  * **************************************************************
  */
-package examples.contactNet;
+package examples.contractNet;
 
 import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
@@ -44,7 +44,7 @@ import jade.domain.FIPAAgentManagement.FailureException;
    a task to an agent among a set of candidates.
    @author Giovanni Caire - TILAB
  */
-public class ContractNetResponderAgent extends Agent {
+public class AgentesCompañiasAereas extends Agent {
         Billete billete = new Billete();
         Oferta ofertaPrecio = new Oferta();
         Comprar comprar = new Comprar();

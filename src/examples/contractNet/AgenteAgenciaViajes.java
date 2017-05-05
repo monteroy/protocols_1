@@ -1,5 +1,5 @@
 
-package examples.contactNet;
+package examples.contractNet;
 
 import jade.content.lang.Codec;
 import jade.content.lang.sl.SLCodec;
@@ -23,7 +23,7 @@ import java.util.Enumeration;
    names must be specified as arguments).
    @author Giovanni Caire - TILAB
  */
-public class ContractNetInitiatorAgent extends Agent {
+public class AgenteAgenciaViajes extends Agent {
     private int nResponders;
     private final Billete billete = new Billete();
     private final Ontology ontologia = ViajesOntology.getInstance();

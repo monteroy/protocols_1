@@ -1,4 +1,4 @@
-package examples.contactNet;
+package examples.contractNet;
  
 import jade.content.onto.*;// la ontologia es la instancia de esta clase
 import jade.content.schema.*;// instancias de las clases PredicateSchema (implements oferta), AgentActionSchema(implements comprar) y ConceptSchema(implements Billete)

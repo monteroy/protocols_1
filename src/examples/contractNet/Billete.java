@@ -1,4 +1,4 @@
-package examples.contactNet;
+package examples.contractNet;
  
 import jade.content.Concept;
 
