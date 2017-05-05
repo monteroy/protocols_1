@@ -1,0 +1,2 @@
+examples.protocols.ContractNetResponderAgent
+examples.protocols.ContractNetResponderAgent$1

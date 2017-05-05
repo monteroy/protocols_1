@@ -1,0 +1,2 @@
+examples.protocols.ContractNetInitiatorAgent
+examples.protocols.ContractNetInitiatorAgent$1
